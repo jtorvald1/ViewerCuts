@@ -1,0 +1,44 @@
+{
+
+  "manifest_version": 2,
+  "name": "ViewerCuts",
+  "version": "1.0",
+
+  "description": "Watch a viewer-tailored version of any movie on Netflix.",
+
+  "icons": {
+    "48": "icons/border-48.png"
+  },
+  
+  "web_accessible_resources": [
+    "data/info.json"
+    ],
+
+  "background": {
+        "scripts": [
+            "background.js"
+        ]
+    },
+    "browser_action": {
+        "default_icon": {
+          "38": "icon38.png"
+        },
+        "default_title": "Add a Cut file to get started!"
+    },
+    "permissions": [
+        "storage",
+        "tabs",
+        "webNavigation",
+        "http://*/",
+        "https://*/"
+    ],
+  "content_scripts": [
+        {
+            "matches": ["https://www.netflix.com/*"],
+            "js": [
+                "ViewerCuts.js"
+            ]
+        }
+    ]
+
+}

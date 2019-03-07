@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="choose_page.css"/>
+
+  </head>
+
+<body>
+    <input type="file" id="fileinput"/>
+    <input type='button' id='btnLoad' value='Load' onclick='handleFileSelect();'>
+    <div id="editor"></div>
+
+  <div class="page-choice">
+        <input id="image-file" type="file" onchange="SaveFile(this)" >
+        <br><br>
+        Choose file and open chrome console > network tab to see the request details.
+        <br><br>
+        <small>Because in this example we send request to https://stacksnippets.net/upload/image the response code will be 404 ofcourse...</small>
+
+        <form enctype="multipart/form-data" action="/data/" method="post">
+            <input type="file" name="fileupload" value="fileupload" id="fileupload">
+            <label for="fileupload"> Select a cut file</label>
+            <input type="submit" value="submit">
+        </form>
+        <button class="submission" type="button" onclick='f1(this)'>Open page</button> 
+    </div>
+
+  <script src="normal-popup.js"></script>
+</body>
+
+
+
+</html>
