@@ -25,6 +25,6 @@ Once you have fulfilled these prerequisites, you may follow these steps to get t
     6. Select the film or episode pertaining to the Cut File you have added.
     7. Enjoy.
 
-## Authors
+## Author
 
 This project was written by me, Torvald Johnson.
