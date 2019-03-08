@@ -1,4 +1,5 @@
 var tabID;
+
 browser.browserAction.onClicked.addListener(function(tab){
     browser.tabs.create({
         'url': browser.runtime.getURL("/popup/normal_popup.html#window")
@@ -19,9 +20,8 @@ browser.webNavigation.onHistoryStateUpdated.addListener(e => {
 
 browser.runtime.onMessage.addListener(handleMessage);
 
-
 function handleMessage(request, sender, sendResponse) {  
-  console.log(`content script sent a message: ${request.content}`);
+  console.log(`Background got a message: ${request.content}`);
     if (request.content == "newTab") {
         console.log("Getting the tabID.");
         console.log(sender.tab.id);
@@ -31,6 +31,7 @@ function handleMessage(request, sender, sendResponse) {
     if (request.content == "NewCut") {
         console.log("User added a new cut");
         browser.tabs.sendMessage(tabID, {message: "NewCut"});
+        browser.tabs.remove(sender.tab.id);
     }
 }
 

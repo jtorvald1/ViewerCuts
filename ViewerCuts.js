@@ -10,28 +10,13 @@ var placeholder;
 var cutsData;
 var cutPoints;
 
-//var tabID = browser.tabs.getCurrent();
-
 readLocalStorage();
 
 console.log("Sending Message!");
-//browser.runtime.sendMessage({"tabID": "ID"});
 browser.runtime.sendMessage({content: "newTab"});
 
-//Doesn't do anything right now. I want to get a message whenever a cutfile is uploaded.
-/*browser.runtime.onMessage.addListener(function(message) {
-    console.log("Got the message!");
-    console.log(message);
-});*/
-
-/*browser.runtime.onMessage.addListener(handleMessage);
-function handleMessage(request, sender, sendResponse) {
-    console.log("Message from the background: " + request.message);
-}*/
-
 browser.runtime.onMessage.addListener(data => {
-    console.log("Hi! Hi hi hi hi hi hi!!!!");
-    console.log("The data is:", data);
+    console.log("Got a message. The data is:", data);
     if (data.message == "watching") {
         console.log("URL changed, restarting addon");
         restartAddon();
@@ -53,15 +38,6 @@ function readLocalStorage(){
     });
     setTimeout(function(){readCutsData()}, 2000);
 }
-
-/*
-function saveToLocalStorage(e){
-    console.log("Saving data.");
-    browser.storage.local.set({'tabID': e}, function() {
-      console.log('Settings saved');
-    });
-    console.log("Saved data.");
-}*/
 
 function readCutsData(){
     cutsData = cutsData.replace(/\(/gi, '');

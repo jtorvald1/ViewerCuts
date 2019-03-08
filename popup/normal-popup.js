@@ -19,16 +19,15 @@ function handleFileSelect(){
     console.log("Handling!!!");
     var file = document.getElementById("fileinput").files[0];
     var reader = new FileReader();
+    reader.readAsText(file);
     reader.onload = function(e){
       console.log(e.target.result);
       console.log("SENDING the message!");
       var str = e.target.result;
       console.log("The string is: ", str);
       saveFile(str);
-      //chrome.runtime.sendMessage({yourMsg: e.target.result});
-      readFile();
     }
-    reader.readAsText(file);
+    window.close();
 }
 
 function saveFile(e){
@@ -50,17 +49,7 @@ function readFile(){
 
 }
 
-/*
 function notifyAddon() {
     console.log("Sending Message!");
-    var sending = browser.runtime.sendMessage({
-    message: "New CutFile"
-    });
-    sending.then(handleResponse, handleError);  
-}*/
-
-function notifyAddon() {
-    console.log("Sending Message!");
-    //browser.tabs.sendMessage(tabId, {message: "NewCut"});
     browser.runtime.sendMessage({content: "NewCut"});
 }
