@@ -70,6 +70,7 @@ function startAddon (video) {
         .getAPI()
         .videoPlayer.getAllPlayerSessionIds()[0]);
     addonIntervalId = setInterval(checkTimeLoop, 100);
+    addButtons();
 };
 
 function restartAddon() {
@@ -127,3 +128,101 @@ function convertToTimestamp (customTimestamp) {
 
   return seconds + 60*minutes + 60*60*hours;
 }
+
+function addLeadingZero(number){
+    return number < 10 ? "0" + number : number;
+}
+
+var timestampToTime = function (timestamp) {
+    var centiseconds = parseInt((timestamp - parseInt(timestamp)) * 10);
+    var date = new Date(timestamp * 1000);
+    var hh = addLeadingZero(date.getUTCHours());
+    var mm = addLeadingZero(date.getUTCMinutes());
+    var ss = addLeadingZero(date.getSeconds());
+    return hh + ":" + mm + ":" + ss + "." + centiseconds;
+};
+
+function addButtons(){
+    var rootElement = document.querySelector('.PlayerControlsNeo__button-control-row');
+    var buttonsArea = document.createElement('div');
+    buttonsArea.setAttribute('class', 'touchable_PlayerControls--control-element_nfp-popup-control');
+
+    var addStartTimeButton = document.createElement('button');
+    addStartTimeButton.innerHTML = "Add Start Timestamp"
+    addStartTimeButton.setAttribute('style', 'color:black; width:150px; height:20px');
+    addStartTimeButton.setAttribute('class', 'custom-js-button');
+    addStartTimeButton.style.fontSize = "12px";
+    addStartTimeButton.addEventListener('click', () => {
+        var textarea = document.getElementById('cut-data');
+        var lines = textarea.value.split("\n");
+        var timestamp = videoElement.currentTime;
+        lines[lines.length-1] = timestampToTime(timestamp) + ",";
+        console.log(lines);
+        textarea.value = lines.join("\n");
+    });
+    
+    var addEndTimeButton = document.createElement('button');
+    addEndTimeButton.innerHTML = "Add End Timestamp"
+    addEndTimeButton.setAttribute('style', 'color:black; width:150px; height:20px');
+    addEndTimeButton.setAttribute('class', 'custom-js-button');
+    addEndTimeButton.style.fontSize = "12px";
+    addEndTimeButton.addEventListener('click', () => {
+        var textarea = document.getElementById('cut-data');
+        var lines = textarea.value.split("\n");
+        var str = lines[lines.length-1];
+        if (str[str.length - 1] == ","){
+            var timestamp = videoElement.currentTime;
+            lines[lines.length-1] += timestampToTime(timestamp) + "\n";
+            console.log(lines);
+            textarea.value = lines.join("\n");
+        }
+    });
+    
+    var showCutsButton = document.createElement('button');
+    showCutsButton.innerHTML = "Show Custom Cuts";
+    showCutsButton.setAttribute('class', 'custom-js-button');
+    showCutsButton.setAttribute('style', 'color:black; width:150px; height:20px');
+    showCutsButton.style.fontSize = "12px";
+    showCutsButton.addEventListener('click', function showModal() {
+        modal.style.display = "block";
+    });
+    
+    buttonsArea.appendChild(addStartTimeButton);
+    buttonsArea.appendChild(addEndTimeButton);
+    buttonsArea.appendChild(showCutsButton);
+    rootElement.appendChild(buttonsArea);
+    
+    var cutsModal = `
+    <div id="cutsModal" class="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <span class="close">&times;</span>
+            <h2>Cut timestamps</h2>
+          </div>
+          <div class="modal-body">
+            <textarea cols="100" rows="20" id="cut-data"></textarea>
+          </div>
+          <div class="modal-footer">
+            <h3></h3>
+          </div>
+        </div>
+    </div>`;
+    
+    var modalDiv = document.createElement('div');
+    modalDiv.innerHTML = cutsModal;
+    document.body.appendChild(modalDiv);
+
+    var modal = document.getElementById('cutsModal');
+    var span = document.getElementsByClassName("close")[0];
+    span.onclick = function() {
+        modal.style.display = "none";
+    }
+    
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+}
+  
+  
