@@ -36,7 +36,14 @@
         {
             "matches": ["https://www.netflix.com/*"],
             "js": [
-                "ViewerCuts.js"
+                "netflix.js"
+            ],
+            "css" : ["style.css"]
+        },
+        {
+            "matches": ["https://viaplay.dk/*"],
+            "js": [
+                "viaplay.js"
             ],
             "css" : ["style.css"]
         }

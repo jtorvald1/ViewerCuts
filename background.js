@@ -30,8 +30,9 @@ function handleMessage(request, sender, sendResponse) {
     }
     if (request.content == "NewCut") {
         console.log("User added a new cut");
-        browser.tabs.sendMessage(tabID, {message: "NewCut"});
         browser.tabs.remove(sender.tab.id);
+        browser.tabs.sendMessage(tabID, {message: "NewCut"});
+        
     }
 }
 

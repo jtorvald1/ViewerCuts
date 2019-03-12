@@ -1,7 +1,7 @@
 .modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
+    z-index: 1001; /* Sit on top */
     padding-top: 100px; /* Location of the box */
     left: 0;
 	color: #000000;
@@ -53,4 +53,6 @@
 	margin-top: 4px;
 	margin-left: 10px;
 	margin-right: 10px;
+    z-index: 1000;
+    position: absolute;
 }
