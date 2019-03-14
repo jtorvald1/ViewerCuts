@@ -38,14 +38,21 @@
             "js": [
                 "netflix.js"
             ],
-            "css" : ["style.css"]
+            "css" : ["netflixstyle.css"]
         },
         {
             "matches": ["https://viaplay.dk/*"],
             "js": [
                 "viaplay.js"
             ],
-            "css" : ["style.css"]
+            "css" : ["viaplaystyle.css"]
+        },
+        {
+            "matches": ["https://moviesanywhere.com/*"],
+            "js": [
+                "moviesanywhere.js"
+            ],
+            "css" : ["viaplaystyle.css"]
         }
     ]
 

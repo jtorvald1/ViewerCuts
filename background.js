@@ -16,6 +16,19 @@ browser.webNavigation.onHistoryStateUpdated.addListener(e => {
             {hostSuffix: "netflix.com", pathPrefix: "/watch/"}
         ]
     }
+    /*
+    ,
+    {
+        url: [
+            {hostSuffix: "viaplay.com", pathPrefix: "/player/"}
+        ]
+    }
+    ,
+    {
+        url: [
+            {hostSuffix: "moviesanywhere.com", pathPrefix: "/movie/"}
+        ]
+    }*/
 );
 
 browser.runtime.onMessage.addListener(handleMessage);
