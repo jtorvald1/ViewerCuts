@@ -53,6 +53,13 @@
                 "moviesanywhere.js"
             ],
             "css" : ["viaplaystyle.css"]
+        },
+        {
+            "matches": ["https://www.youtube.com/*"],
+            "js": [
+                "youtube.js"
+            ],
+            "css" : ["youtubestyle.css"]
         }
     ]
 

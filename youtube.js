@@ -27,10 +27,7 @@ browser.runtime.onMessage.addListener(data => {
     }
 });
 
-if(window.location.pathname.startsWith('/movie')){
-    setTimeout(getVideoElement, 100);
-}
-if(window.location.pathname.startsWith('/my-movies')){
+if(window.location.pathname.startsWith('/watch')){
     setTimeout(getVideoElement, 100);
 }
 
@@ -90,11 +87,9 @@ function checkTimeLoop(){
     if(videoElement){
         var currentVideoTime = videoElement.currentTime;
         currentVideoTime = Math.round(currentVideoTime * 10);
-
         for(var i = 0; i < cutPoints.length; i++){
             var currentPoint = cutPoints[i];
             var cutTimeStamp = convertToTimestamp(currentPoint[0]) * 10;
-
             var destinationTimeStamp = convertToTimestamp(currentPoint[1]);
             if(currentVideoTime != placeholder) {
                 placeholder = 0;
@@ -139,14 +134,13 @@ var timestampToTime = function (timestamp) {
 };
 
 function addButtons(){
-    var rootElement = document.querySelector('.content-wrapper');
-    //console.log(rootElement);
+    var rootElement = document.querySelector('.ytp-left-controls');
     var buttonsArea = document.createElement('div');
     buttonsArea.setAttribute('class', 'touchable_PlayerControls--control-element_nfp-popup-control');
 
     var addStartTimeButton = document.createElement('button');
-    addStartTimeButton.innerHTML = "Add Start Timestamp"
-    addStartTimeButton.setAttribute('style', 'color:black; width:150px; height:20px');
+    addStartTimeButton.innerHTML = "Add Start Cut"
+    addStartTimeButton.setAttribute('style', 'color:black; text-align: center; height:20px');
     addStartTimeButton.setAttribute('class', 'custom-js-button');
     addStartTimeButton.style.fontSize = "12px";
     addStartTimeButton.addEventListener('click', () => {
@@ -159,8 +153,8 @@ function addButtons(){
     });
     
     var addEndTimeButton = document.createElement('button');
-    addEndTimeButton.innerHTML = "Add End Timestamp"
-    addEndTimeButton.setAttribute('style', 'color:black; width:150px; height:20px');
+    addEndTimeButton.innerHTML = "Add End Cut"
+    addEndTimeButton.setAttribute('style', 'color:black; text-align: center; height:20px');
     addEndTimeButton.setAttribute('class', 'custom-js-button');
     addEndTimeButton.style.fontSize = "12px";
     addEndTimeButton.addEventListener('click', () => {
@@ -178,7 +172,7 @@ function addButtons(){
     var showCutsButton = document.createElement('button');
     showCutsButton.innerHTML = "Show Custom Cuts";
     showCutsButton.setAttribute('class', 'custom-js-button');
-    showCutsButton.setAttribute('style', 'color:black; width:150px; height:20px');
+    showCutsButton.setAttribute('style', 'color:black; text-align: center; height:20px');
     showCutsButton.style.fontSize = "12px";
     showCutsButton.addEventListener('click', function showModal() {
         console.log("Showing modal");
