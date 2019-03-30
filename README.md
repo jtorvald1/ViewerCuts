@@ -1,5 +1,5 @@
 # ViewerCuts
-Firefox Addon. Add a cut-file, then watch a viewer-tailored version of any movie on Netflix.
+This is a Firefox Addon. Install it, add a cut-file, then watch a viewer-tailored version of any movie on Netflix.
 ## Getting Started
 
 To get this add-on running in Firefox, follow these steps.
