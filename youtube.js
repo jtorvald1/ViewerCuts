@@ -133,6 +133,8 @@ var timestampToTime = function (timestamp) {
     return hh + ":" + mm + ":" + ss + "." + centiseconds;
 };
 
+
+
 function addButtons(){
     var rootElement = document.querySelector('.ytp-left-controls');
     var buttonsArea = document.createElement('div');
@@ -180,9 +182,27 @@ function addButtons(){
         console.log("Showed modal");
     });
     
+    var addCutFileLabel = document.createElement('label');
+    addCutFileLabel.setAttribute('for', 'fileinput');
+    addCutFileLabel.setAttribute('class', 'btn');
+    addCutFileLabel.setAttribute('type', 'button')
+    addCutFileLabel.innerHTML = "Add Cut File";
+    //#d4e4f7
+    
+    var addCutFileButton = document.createElement('input');
+    addCutFileButton.innerHTML = "Add Cut File";
+    addCutFileButton.setAttribute('type', 'file');
+    addCutFileButton.setAttribute('class', 'custom-js-button');
+    addCutFileButton.setAttribute('id', 'fileinput');
+    addCutFileButton.setAttribute('style', 'visibility:hidden');
+    addCutFileButton.style.fontSize = "12px";
+    addCutFileButton.addEventListener("change", handleFileSelect);
+    
     buttonsArea.appendChild(addStartTimeButton);
     buttonsArea.appendChild(addEndTimeButton);
     buttonsArea.appendChild(showCutsButton);
+    buttonsArea.appendChild(addCutFileLabel);
+    buttonsArea.appendChild(addCutFileButton);
     rootElement.appendChild(buttonsArea);
     
     var cutsModal = `
@@ -216,4 +236,44 @@ function addButtons(){
             modal.style.display = "none";
         }
     }
+    
+    function handleFileSelect(){
+    console.log("Handling!!!");
+    var file = document.getElementById("fileinput").files[0];
+    var reader = new FileReader();
+    reader.readAsText(file);
+    reader.onload = function(e){
+      console.log(e.target.result);
+      console.log("SENDING the message!");
+      var str = e.target.result;
+      console.log("The string is: ", str);
+      saveFile(str);
+    }
+    //window.close();
+}
+
+    function saveFile(e){
+        console.log("Saving file.");
+        browser.storage.local.set({'1': e}, function() {
+          console.log('Settings saved');
+          notifyAddon();
+        });
+        console.log("Saved file.");
+    }
+
+    function readFile(){
+        console.log("Reading the storage.");
+        var stringy = ""
+
+        browser.storage.local.get('1', function(items) {
+          console.log('Settings retrieved', items[1].toSource());
+        });
+
+    }
+
+    function notifyAddon() {
+        console.log("Sending Message!");
+        browser.runtime.sendMessage({content: "NewCut"});
+    }
+    
 }

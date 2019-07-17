@@ -56,3 +56,26 @@
     z-index: 1000;
     position: absolute;
 }
+
+.btn {
+    fontSize:12px;
+    color:black;
+    text-align: center;
+    background-color: #EEEEEE;
+    margin-top: 4px;
+	margin-left: 5px;
+	margin-right: 5px;
+    border-top: 1px solid #d9d9d9;
+    border-right: 1px solid #d9d9d9;
+    border-bottom: 1px solid #d9d9d9;
+    border-left: 1px solid #d9d9d9;
+    cursor: pointer;   
+}
+
+.btn:hover {
+  background-color: #d4e4f7; 
+  border-top: 1px solid #afe4ff;
+  border-right: 1px solid #afe4ff;
+  border-bottom: 1px solid #afe4ff;
+  border-left: 1px solid #afe4ff;
+}

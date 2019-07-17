@@ -142,23 +142,121 @@ var timestampToTime = function (timestamp) {
     return hh + ":" + mm + ":" + ss + "." + centiseconds;
 };
 
+function jsfunction(e, seekTime){
+    console.log("Got to jsfunction. The seektime is:");
+    var seek = convertToTimestamp(seekTime) * 1000;
+    console.log(seek);
+    skipToTime(seek);
+    var modal = document.getElementById('cutsModal');
+    console.log(modal);
+    modal.style.display = "none";
+}
+
+function getCall(fn, param) {
+   return function(e) {
+      e = e || window.event;
+      e.preventDefault(); // this might let you use real URLs instead of void(0)
+      fn(e, param);
+   };
+}
+
+function sidebar_open() {
+    console.log("Opening Sidebar!");
+    document.getElementById("sidebar").style.display = "block";
+}
+
+function sidebar_close() {
+    console.log("Closing Sidebar!");
+    document.getElementById("sidebar").style.display = "none";
+} 
+
 function addButtons(){
-    var rootElement = document.querySelector('.PlayerControlsNeo__button-control-row');
+    var rootElement = document.querySelector('.controls-full-hit-zone');
+    //rootElement.setAttribute('z-index', '1')
     var buttonsArea = document.createElement('div');
     buttonsArea.setAttribute('class', 'touchable_PlayerControls--control-element_nfp-popup-control');
 
+    var sidebar = document.createElement('div');
+    sidebar.setAttribute('class', 'sidebar-collapse');
+    sidebar.setAttribute('id', 'sidebar');
+    sidebar.setAttribute('style', 'width:200px;right:0');
+    sidebar.setAttribute('z-index', '12');
+    sidebar.setAttribute('pointer-events', 'none');
+    sidebar.setAttribute('position', 'absolute');
+    //sidebar.setAttribute('-webkit-user-select', ' ');
+    sidebar.setAttribute('backgroundImage','img.jpg');
+    var closebutton = document.createElement('button');
+    closebutton.setAttribute('class', 'closebutton');
+    //closebutton.setAttribute('img src', '\left_arrow.png');
+    //closebutton.innerHTML = '<img src="\left_arrow.png" />';
+    closebutton.onclick = getCall(sidebar_close, null);
+    closebutton.value = "&times;"
+    
+    sidebar.appendChild(closebutton);
+    
+    var sidebaropener = document.createElement('div');
+    sidebaropener.setAttribute('class', 'teal');
+    sidebaropener.setAttribute('style', 'margin-right:0px');
+    sidebaropener.setAttribute('display', 'inline-block');
+    sidebaropener.setAttribute('z-index', '12')
+    sidebaropener.setAttribute('pointer-events', 'none');
+    sidebaropener.setAttribute('position', 'absolute');
+    //sidebaropener.setAttribute('-webkit-user-select', ' ');
+    var openbutton = document.createElement('button');
+    openbutton.setAttribute('class', 'openbutton');
+    //openbutton.setAttribute('img src', '\right_arrow.png');
+    //openbutton.innerHTML = '<img src="images\ok.png" />';
+    openbutton.onclick = getCall(sidebar_open, null);
+    openbutton.value = "&#9776;"
+    
+    sidebaropener.appendChild(openbutton);
+    
     var addStartTimeButton = document.createElement('button');
     addStartTimeButton.innerHTML = "Add Start Timestamp"
     addStartTimeButton.setAttribute('style', 'color:black; width:150px; height:20px');
     addStartTimeButton.setAttribute('class', 'custom-js-button');
     addStartTimeButton.style.fontSize = "12px";
     addStartTimeButton.addEventListener('click', () => {
-        var textarea = document.getElementById('cut-data');
-        var lines = textarea.value.split("\n");
+        //var textarea = document.getElementById('cut-data');
+        var mydiv = document.getElementById("cut-data");
+        var lines = mydiv.textContent.split("\n");
         var timestamp = videoElement.currentTime;
-        lines[lines.length-1] = timestampToTime(timestamp) + ",";
+        //lines[lines.length-1] = timestampToTime(timestamp) + ",";
         console.log(lines);
-        textarea.value = lines.join("\n");
+        //textarea.value = lines.join("\n");
+        
+        var aTag = document.createElement('a');
+        //aTag.setAttribute('onclick',"jsfunction()");
+        //aTag.onclick = function( hike_id )
+        aTag.onclick = getCall(jsfunction, timestampToTime(timestamp));
+        aTag.setAttribute('href',"#");
+        aTag.innerHTML = timestampToTime(timestamp) + ",";
+        if (lines[lines.length-1] == ""){
+            mydiv.appendChild(aTag);
+            console.log("APPENDING START TAG");
+        }
+        else {
+            console.log("MADE IT HERE???");
+            //mydiv.last-child.remove();
+            mydiv.removeChild(mydiv.lastChild);
+            console.log("REMOVED LAST CHILD!");
+            mydiv.appendChild(aTag);
+        }
+        
+        //var textarea = document.getElementById('cut-data');
+        
+        //var lines = textarea.value.split("\n");
+        //var lines = mydiv.value.split("\n");
+        //var str = lines[lines.length-1];
+        //if (str[str.length - 1] == ","){
+        //    var timestamp = videoElement.currentTime;
+        //    //lines[lines.length-1] += timestampToTime(timestamp) + "\n";
+        //    console.log(lines);
+            //textarea.value = lines.join("\n");
+            
+            
+            
+        //}
     });
     
     var addEndTimeButton = document.createElement('button');
@@ -167,14 +265,37 @@ function addButtons(){
     addEndTimeButton.setAttribute('class', 'custom-js-button');
     addEndTimeButton.style.fontSize = "12px";
     addEndTimeButton.addEventListener('click', () => {
-        var textarea = document.getElementById('cut-data');
-        var lines = textarea.value.split("\n");
-        var str = lines[lines.length-1];
-        if (str[str.length - 1] == ","){
-            var timestamp = videoElement.currentTime;
-            lines[lines.length-1] += timestampToTime(timestamp) + "\n";
-            console.log(lines);
-            textarea.value = lines.join("\n");
+        //var textarea = document.getElementById('cut-data');
+        var mydiv = document.getElementById("cut-data");
+        //var lines = textarea.value.split("\n");
+        var lines = mydiv.textContent.split("\n");
+        //var str = lines[lines.length-1];
+        //if (str[str.length - 1] == ","){
+        
+        console.log("It was NOT empty.");
+        
+        var timestamp = videoElement.currentTime;
+        //lines[lines.length-1] += timestampToTime(timestamp) + "\n";
+        console.log(lines);
+        //textarea.value = lines.join("\n");
+        
+        
+        var aTag = document.createElement('a');
+        //aTag.setAttribute('onclick',"jsfunction()");
+        //aTag.onclick = function( hike_id )
+        aTag.onclick = getCall(jsfunction, timestampToTime(timestamp));
+        aTag.setAttribute('href',"#");
+        aTag.innerHTML = timestampToTime(timestamp) + "\n<br>";
+        if (!lines[lines.length-1] == ""){
+            mydiv.appendChild(aTag);
+        //}
+        }
+        else {
+            console.log("MADE IT HERE???");
+            //mydiv.last-child.remove();
+            mydiv.removeChild(mydiv.lastChild);
+            console.log("REMOVED LAST CHILD!");
+            mydiv.appendChild(aTag);
         }
     });
     
@@ -187,10 +308,13 @@ function addButtons(){
         modal.style.display = "block";
     });
     
-    buttonsArea.appendChild(addStartTimeButton);
-    buttonsArea.appendChild(addEndTimeButton);
-    buttonsArea.appendChild(showCutsButton);
-    rootElement.appendChild(buttonsArea);
+    sidebar.appendChild(addStartTimeButton);
+    sidebar.appendChild(addEndTimeButton);
+    sidebar.appendChild(showCutsButton);
+    //rootElement.insertAdjacentElement('afterbegin', sidebar);
+    //rootElement.insertAdjacentElement('afterbegin', sidebaropener);
+    document.body.appendChild(sidebar);
+    document.body.appendChild(sidebaropener);
     
     var cutsModal = `
     <div id="cutsModal" class="modal">
@@ -200,7 +324,9 @@ function addButtons(){
             <h2>Cut timestamps</h2>
           </div>
           <div class="modal-body">
-            <textarea cols="100" rows="20" id="cut-data"></textarea>
+            <div id="div-text" class="div-text">
+                <p id="cut-data">
+            </div>
           </div>
           <div class="modal-footer">
             <h3></h3>
