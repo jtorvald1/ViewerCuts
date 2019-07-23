@@ -162,12 +162,14 @@ function getCall(fn, param) {
 
 function sidebar_open() {
     console.log("Opening Sidebar!");
+    document.getElementById("sidebar-closed").style.display = "none";
     document.getElementById("sidebar").style.display = "block";
 }
 
 function sidebar_close() {
     console.log("Closing Sidebar!");
     document.getElementById("sidebar").style.display = "none";
+    document.getElementById("sidebar-closed").style.display = "block";
 } 
 
 function addButtons(){
@@ -180,6 +182,7 @@ function addButtons(){
     sidebar.setAttribute('class', 'sidebar-collapse');
     sidebar.setAttribute('id', 'sidebar');
     sidebar.setAttribute('style', 'width:200px;right:0');
+    sidebar.setAttribute('display', 'inline-block');
     sidebar.setAttribute('z-index', '12');
     sidebar.setAttribute('pointer-events', 'none');
     sidebar.setAttribute('position', 'absolute');
@@ -195,7 +198,8 @@ function addButtons(){
     sidebar.appendChild(closebutton);
     
     var sidebaropener = document.createElement('div');
-    sidebaropener.setAttribute('class', 'teal');
+    sidebaropener.setAttribute('class', 'sidebar-closed');
+    sidebaropener.setAttribute('id', 'sidebar-closed');
     sidebaropener.setAttribute('style', 'margin-right:0px');
     sidebaropener.setAttribute('display', 'inline-block');
     sidebaropener.setAttribute('z-index', '12')
@@ -212,10 +216,12 @@ function addButtons(){
     sidebaropener.appendChild(openbutton);
     
     var addStartTimeButton = document.createElement('button');
-    addStartTimeButton.innerHTML = "Add Start Timestamp"
-    addStartTimeButton.setAttribute('style', 'color:black; width:150px; height:20px');
-    addStartTimeButton.setAttribute('class', 'custom-js-button');
-    addStartTimeButton.style.fontSize = "12px";
+    //addStartTimeButton.innerHTML = "Add Start Timestamp"
+    addStartTimeButton.setAttribute('title', 'Add start timestamp');
+    //addStartTimeButton.setAttribute('type', 'button');
+    //addStartTimeButton.setAttribute('style', 'color:black; width:150px; height:20px');
+    addStartTimeButton.setAttribute('class', 'custom-js-button-start');
+    //addStartTimeButton.style.fontSize = "12px";
     addStartTimeButton.addEventListener('click', () => {
         //var textarea = document.getElementById('cut-data');
         var mydiv = document.getElementById("cut-data");
@@ -260,10 +266,11 @@ function addButtons(){
     });
     
     var addEndTimeButton = document.createElement('button');
-    addEndTimeButton.innerHTML = "Add End Timestamp"
-    addEndTimeButton.setAttribute('style', 'color:black; width:150px; height:20px');
-    addEndTimeButton.setAttribute('class', 'custom-js-button');
-    addEndTimeButton.style.fontSize = "12px";
+    //addEndTimeButton.innerHTML = "Add End Timestamp";
+    addEndTimeButton.setAttribute('title', 'Add end timestamp');
+    //addEndTimeButton.setAttribute('style', 'color:black; width:150px; height:20px');
+    addEndTimeButton.setAttribute('class', 'custom-js-button-end');
+    //addEndTimeButton.style.fontSize = "12px";
     addEndTimeButton.addEventListener('click', () => {
         //var textarea = document.getElementById('cut-data');
         var mydiv = document.getElementById("cut-data");
@@ -300,17 +307,54 @@ function addButtons(){
     });
     
     var showCutsButton = document.createElement('button');
-    showCutsButton.innerHTML = "Show Custom Cuts";
-    showCutsButton.setAttribute('class', 'custom-js-button');
-    showCutsButton.setAttribute('style', 'color:black; width:150px; height:20px');
-    showCutsButton.style.fontSize = "12px";
+    //showCutsButton.innerHTML = "Show Custom Cuts";
+    showCutsButton.setAttribute('title', 'Show custom cuts');
+    showCutsButton.setAttribute('class', 'custom-js-button-show');
+    //showCutsButton.setAttribute('style', 'color:black; width:150px; height:20px');
+    //showCutsButton.style.fontSize = "12px";
     showCutsButton.addEventListener('click', function showModal() {
         modal.style.display = "block";
     });
     
+    var clearCutsButton = document.createElement('button');
+    clearCutsButton.setAttribute('title', 'Clear custom cuts');
+    clearCutsButton.setAttribute('class', 'custom-js-button-clear');
+    clearCutsButton.addEventListener('click', () => {
+        console.log("Clearing cuts");
+        var mydiv = document.getElementById("cut-data");
+        if (confirm("Clear all custom cuts?")) {
+            console.log("Confirmed.");
+            while (mydiv.firstChild) {
+                mydiv.removeChild(mydiv.firstChild);
+            }
+            console.log("Cleared cuts");
+        }
+    });
+    
+    var loadCutFileLabel = document.createElement('label');
+    loadCutFileLabel.setAttribute('for', 'fileinput');
+    loadCutFileLabel.setAttribute('class', 'btn');
+    loadCutFileLabel.setAttribute('type', 'button')
+    //loadCutFileLabel.innerHTML = "Load Cut File";
+    loadCutFileLabel.setAttribute('title', 'Load cut file');
+    //#d4e4f7
+    
+    var loadCutFileButton = document.createElement('input');
+    //loadCutFileButton.innerHTML = "Load Cut File";
+    loadCutFileButton.setAttribute('title', 'Load cut file');
+    loadCutFileButton.setAttribute('type', 'file');
+    loadCutFileButton.setAttribute('class', 'custom-js-button');
+    loadCutFileButton.setAttribute('id', 'fileinput');
+    loadCutFileButton.setAttribute('style', 'visibility:hidden');
+    //loadCutFileButton.style.fontSize = "12px";
+    loadCutFileButton.addEventListener("change", handleFileSelect);
+    
     sidebar.appendChild(addStartTimeButton);
     sidebar.appendChild(addEndTimeButton);
     sidebar.appendChild(showCutsButton);
+    sidebar.appendChild(clearCutsButton);
+    sidebar.appendChild(loadCutFileLabel);
+    sidebar.appendChild(loadCutFileButton);
     //rootElement.insertAdjacentElement('afterbegin', sidebar);
     //rootElement.insertAdjacentElement('afterbegin', sidebaropener);
     document.body.appendChild(sidebar);
@@ -348,6 +392,44 @@ function addButtons(){
         if (event.target == modal) {
             modal.style.display = "none";
         }
+    }
+    function handleFileSelect(){
+    console.log("Handling!!!");
+    var file = document.getElementById("fileinput").files[0];
+    var reader = new FileReader();
+    reader.readAsText(file);
+    reader.onload = function(e){
+      console.log(e.target.result);
+      console.log("SENDING the message!");
+      var str = e.target.result;
+      console.log("The string is: ", str);
+      saveFile(str);
+      }
+    //window.close();
+    }
+
+    function saveFile(e){
+        console.log("Saving file.");
+        browser.storage.local.set({'1': e}, function() {
+          console.log('Settings saved');
+          notifyAddon();
+        });
+        console.log("Saved file.");
+    }
+
+    function readFile(){
+        console.log("Reading the storage.");
+        var stringy = ""
+
+        browser.storage.local.get('1', function(items) {
+          console.log('Settings retrieved', items[1].toSource());
+        });
+
+    }
+
+    function notifyAddon() {
+        console.log("Sending Message!");
+        browser.runtime.sendMessage({content: "NewCut"});
     }
 }
   

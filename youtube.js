@@ -182,27 +182,27 @@ function addButtons(){
         console.log("Showed modal");
     });
     
-    var addCutFileLabel = document.createElement('label');
-    addCutFileLabel.setAttribute('for', 'fileinput');
-    addCutFileLabel.setAttribute('class', 'btn');
-    addCutFileLabel.setAttribute('type', 'button')
-    addCutFileLabel.innerHTML = "Add Cut File";
+    var loadCutFileLabel = document.createElement('label');
+    loadCutFileLabel.setAttribute('for', 'fileinput');
+    loadCutFileLabel.setAttribute('class', 'btn');
+    loadCutFileLabel.setAttribute('type', 'button')
+    loadCutFileLabel.innerHTML = "Load Cut File";
     //#d4e4f7
     
-    var addCutFileButton = document.createElement('input');
-    addCutFileButton.innerHTML = "Add Cut File";
-    addCutFileButton.setAttribute('type', 'file');
-    addCutFileButton.setAttribute('class', 'custom-js-button');
-    addCutFileButton.setAttribute('id', 'fileinput');
-    addCutFileButton.setAttribute('style', 'visibility:hidden');
-    addCutFileButton.style.fontSize = "12px";
-    addCutFileButton.addEventListener("change", handleFileSelect);
+    var loadCutFileButton = document.createElement('input');
+    loadCutFileButton.innerHTML = "Load Cut File";
+    loadCutFileButton.setAttribute('type', 'file');
+    loadCutFileButton.setAttribute('class', 'custom-js-button');
+    loadCutFileButton.setAttribute('id', 'fileinput');
+    loadCutFileButton.setAttribute('style', 'visibility:hidden');
+    loadCutFileButton.style.fontSize = "12px";
+    loadCutFileButton.addEventListener("change", handleFileSelect);
     
     buttonsArea.appendChild(addStartTimeButton);
     buttonsArea.appendChild(addEndTimeButton);
     buttonsArea.appendChild(showCutsButton);
-    buttonsArea.appendChild(addCutFileLabel);
-    buttonsArea.appendChild(addCutFileButton);
+    buttonsArea.appendChild(loadCutFileLabel);
+    buttonsArea.appendChild(loadCutFileButton);
     rootElement.appendChild(buttonsArea);
     
     var cutsModal = `
@@ -248,9 +248,9 @@ function addButtons(){
       var str = e.target.result;
       console.log("The string is: ", str);
       saveFile(str);
-    }
+      }
     //window.close();
-}
+    }
 
     function saveFile(e){
         console.log("Saving file.");
