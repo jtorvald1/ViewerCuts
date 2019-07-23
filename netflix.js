@@ -170,7 +170,13 @@ function sidebar_close() {
     console.log("Closing Sidebar!");
     document.getElementById("sidebar").style.display = "none";
     document.getElementById("sidebar-closed").style.display = "block";
-} 
+}
+
+function makeTextFile(text) {
+    var data = new Blob([text], {type: 'text/plain',endings:'native'});
+    textFile = window.URL.createObjectURL(data);
+    return textFile;
+}
 
 function addButtons(){
     var rootElement = document.querySelector('.controls-full-hit-zone');
@@ -181,7 +187,7 @@ function addButtons(){
     var sidebar = document.createElement('div');
     sidebar.setAttribute('class', 'sidebar-collapse');
     sidebar.setAttribute('id', 'sidebar');
-    sidebar.setAttribute('style', 'width:200px;right:0');
+    sidebar.setAttribute('style', 'width:150px;right:0');
     sidebar.setAttribute('display', 'inline-block');
     sidebar.setAttribute('z-index', '12');
     sidebar.setAttribute('pointer-events', 'none');
@@ -331,6 +337,50 @@ function addButtons(){
         }
     });
     
+    var saveCutsButton = document.createElement('button');
+    saveCutsButton.setAttribute('title', 'Save and download custom cuts');
+    saveCutsButton.setAttribute('class', 'custom-js-button-save');
+    saveCutsButton.addEventListener('click', () => {
+        console.log("Saving cuts");
+        var mydiv = document.getElementById("cut-data");
+        //var lines = mydiv.children;
+        var lines = mydiv.textContent
+        console.log(lines);
+        
+        var link = document.createElement('a');
+        link.setAttribute('download', 'custom_cut.txt');
+        console.log("Made link. Now makeTextFile.");
+        link.href = makeTextFile(lines);
+        console.log("Made text file. Now append.");
+        document.body.appendChild(link);
+        console.log("Appended.");
+
+        // wait for the link to be added to the document
+        window.requestAnimationFrame(function () {
+          var event = new MouseEvent('click');
+          link.dispatchEvent(event);
+          document.body.removeChild(link);
+		});
+        
+        console.log("Wrote to file");
+        /*var str = "";
+        var i;
+        for (i = 0; i < lines.length; i++) {
+            str = str.concat(lines[i].innerHTML);
+            str = str.concat(lines[i+1].innerHTML);
+            str = str.concat("\n");
+            //console.log("Iteration");
+        }
+        console.log(str);*/
+        /*if (confirm("Clear all custom cuts?")) {
+            console.log("Confirmed.");
+            while (mydiv.firstChild) {
+                mydiv.removeChild(mydiv.firstChild);
+            }
+            console.log("Cleared cuts");
+        }*/
+    });
+    
     var loadCutFileLabel = document.createElement('label');
     loadCutFileLabel.setAttribute('for', 'fileinput');
     loadCutFileLabel.setAttribute('class', 'btn');
@@ -353,6 +403,7 @@ function addButtons(){
     sidebar.appendChild(addEndTimeButton);
     sidebar.appendChild(showCutsButton);
     sidebar.appendChild(clearCutsButton);
+    sidebar.appendChild(saveCutsButton);
     sidebar.appendChild(loadCutFileLabel);
     sidebar.appendChild(loadCutFileButton);
     //rootElement.insertAdjacentElement('afterbegin', sidebar);

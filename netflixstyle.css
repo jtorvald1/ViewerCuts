@@ -124,6 +124,24 @@
   border-left: 1px solid #afe4ff;
 }
 
+.custom-js-button-save {
+	display: inline-block;
+    background:/*#6DB3F2*/ url(/icons/save_transparent_inv.png) no-repeat center/contain;
+	width:50px;
+    height:50px;
+    border: none;
+    margin-top: 4px;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+.custom-js-button-save:hover {
+  background-color: #d4e4f7; 
+  border-top: 1px solid #afe4ff;
+  border-right: 1px solid #afe4ff;
+  border-bottom: 1px solid #afe4ff;
+  border-left: 1px solid #afe4ff;
+}
+
 .touchable_PlayerControls--control-element_nfp-popup-control {
     display: block;
 	margin-top: 4px;
@@ -202,7 +220,7 @@
 .btn:hover {
   background-color: #d4e4f7; 
   border-top: 1px solid #afe4ff;
-  border-right: 1px solid #afe4ff;
+  /*border-right: 1px solid #afe4ff;*/
   border-bottom: 1px solid #afe4ff;
-  border-left: 1px solid #afe4ff;
+  /*border-left: 1px solid #afe4ff;*/
 }
