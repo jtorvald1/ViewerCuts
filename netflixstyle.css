@@ -142,6 +142,23 @@
   border-left: 1px solid #afe4ff;
 }
 
+.custom-js-button-delete {
+    background:/*#6DB3F2*/ url(/icons/delete_transparent.png) no-repeat center/contain;
+	width:10px;
+    height:15px;
+    border: none;
+    padding-top: 8px;
+	margin-left: 10px;
+	margin-right: 10px;
+}
+.custom-js-button-delete:hover {
+  background-color: #d4e4f7; 
+  /*border-top: 1px solid #afe4ff;
+  border-right: 1px solid #afe4ff;
+  border-bottom: 1px solid #afe4ff;
+  border-left: 1px solid #afe4ff;*/
+}
+
 .touchable_PlayerControls--control-element_nfp-popup-control {
     display: block;
 	margin-top: 4px;
@@ -156,7 +173,8 @@
     z-index: 1000; /* Sit on top */
     padding-top: 100px; /* Location of the box */
     left: 0;
-	color: #000000;
+	color: white;
+    text-align: center;
     top: 0;
     width: 100%; /* Full width */
     height: 100%; /* Full height */
@@ -180,14 +198,15 @@
 
 .openbutton{
     background:url(/icons/right_arrow_transparent_inv.png) no-repeat center/contain;
+    border: none;
     width: 10px;
     height: 20px;
     display: block;
 }
 
 .closebutton{
-    
     background:url(/icons/left_arrow_transparent_inv.png) no-repeat center/contain;
+    border: none;
     width: 10px;
     height: 20px;
     display: block;
@@ -214,7 +233,7 @@
 	margin-left: 10px;
 	margin-right: 10px;
     cursor: pointer;
-    float: left;
+    margin: auto;
 }
 
 .btn:hover {

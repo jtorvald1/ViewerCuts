@@ -184,6 +184,15 @@ function addButtons(){
     var buttonsArea = document.createElement('div');
     buttonsArea.setAttribute('class', 'touchable_PlayerControls--control-element_nfp-popup-control');
 
+    var p1 = document.createElement("p");
+    var p2 = document.createElement("p");
+    var br1 = document.createElement("br");
+    var textnode1 = document.createTextNode("Editing tools");
+    var textnode2 = document.createTextNode("Watching tools");
+    p1.appendChild(textnode1)
+    p2.appendChild(textnode2)
+    
+    
     var sidebar = document.createElement('div');
     sidebar.setAttribute('class', 'sidebar-collapse');
     sidebar.setAttribute('id', 'sidebar');
@@ -243,15 +252,38 @@ function addButtons(){
         aTag.onclick = getCall(jsfunction, timestampToTime(timestamp));
         aTag.setAttribute('href',"#");
         aTag.innerHTML = timestampToTime(timestamp) + ",";
+        
+        var deleteButton = document.createElement('button');
+        deleteButton.setAttribute('title', 'Delete this timestamp');
+        deleteButton.setAttribute('class', 'custom-js-button-delete');
+        deleteButton.addEventListener('click', () => {
+            console.log("Time to delete!");
+            console.log(aTag.nextSibling);
+            if(aTag.nextSibling){
+                mydiv.removeChild(aTag.nextSibling);
+                console.log("Just deleted sibling!");
+            }
+            console.log(aTag);
+            mydiv.removeChild(aTag);
+            mydiv.removeChild(deleteButton);
+        });
+        
         if (lines[lines.length-1] == ""){
+            mydiv.appendChild(deleteButton);
             mydiv.appendChild(aTag);
             console.log("APPENDING START TAG");
         }
         else {
             console.log("MADE IT HERE???");
             //mydiv.last-child.remove();
-            mydiv.removeChild(mydiv.lastChild);
+            if(mydiv.lastChild){
+                mydiv.removeChild(mydiv.lastChild);
+            }
+            if(mydiv.lastChild){
+                mydiv.removeChild(mydiv.lastChild);
+            }
             console.log("REMOVED LAST CHILD!");
+            mydiv.appendChild(deleteButton);
             mydiv.appendChild(aTag);
         }
         
@@ -399,13 +431,16 @@ function addButtons(){
     //loadCutFileButton.style.fontSize = "12px";
     loadCutFileButton.addEventListener("change", handleFileSelect);
     
-    sidebar.appendChild(addStartTimeButton);
-    sidebar.appendChild(addEndTimeButton);
-    sidebar.appendChild(showCutsButton);
-    sidebar.appendChild(clearCutsButton);
-    sidebar.appendChild(saveCutsButton);
-    sidebar.appendChild(loadCutFileLabel);
-    sidebar.appendChild(loadCutFileButton);
+    p1.appendChild(addStartTimeButton);
+    p1.appendChild(addEndTimeButton);
+    p1.appendChild(showCutsButton);
+    p1.appendChild(clearCutsButton);
+    p1.appendChild(saveCutsButton);
+    p2.appendChild(loadCutFileLabel);
+    p2.appendChild(loadCutFileButton);
+    sidebar.appendChild(p1);
+    sidebar.appendChild(br1);
+    sidebar.appendChild(p2);
     //rootElement.insertAdjacentElement('afterbegin', sidebar);
     //rootElement.insertAdjacentElement('afterbegin', sidebaropener);
     document.body.appendChild(sidebar);
